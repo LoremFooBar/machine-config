@@ -1,0 +1,339 @@
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+
+properties:
+  configurationVersion: "0.2.0"
+  resources:
+    ### winget packages ###
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_7zip.7zip
+      directives:
+        allowPrerelease: true
+      settings:
+        id: "7zip.7zip"
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Balena.Etcher
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Balena.Etcher
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_CoreyButler.NVMforWindows
+      directives:
+        allowPrerelease: true
+      settings:
+        id: CoreyButler.NVMforWindows
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Docker.DockerDesktop
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Docker.DockerDesktop
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Fork.Fork
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Fork.Fork
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Foxit.FoxitReader
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Foxit.FoxitReader
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Git.Git
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Git.Git
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_GitHub.cli
+      directives:
+        allowPrerelease: true
+      settings:
+        id: GitHub.cli
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Google.GoogleDrive
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Google.GoogleDrive
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Google.NearbyShare
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Google.NearbyShare
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_HandBrake.HandBrake
+      directives:
+        allowPrerelease: true
+      settings:
+        id: HandBrake.HandBrake
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_HeidiSQL.HeidiSQL
+      directives:
+        allowPrerelease: true
+      settings:
+        id: HeidiSQL.HeidiSQL
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_JAMSoftware.TreeSize.Free
+      directives:
+        allowPrerelease: true
+      settings:
+        id: JAMSoftware.TreeSize.Free
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_JanDeDobbeleer.OhMyPosh
+      dependsOn:
+        - "winget_Microsoft.PowerShell"
+      directives:
+        allowPrerelease: true
+      settings:
+        id: JanDeDobbeleer.OhMyPosh
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_JetBrains.Toolbox
+      directives:
+        allowPrerelease: true
+      settings:
+        id: JetBrains.Toolbox
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Microsoft.DotNet.SDK.8
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Microsoft.DotNet.SDK.8
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Microsoft.PowerToys
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Microsoft.PowerToys
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Microsoft.PowerShell
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Microsoft.PowerShell
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Microsoft.VCRedist.2010.x64
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Microsoft.VCRedist.2010.x64
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Microsoft.VCRedist.2013.x64
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Microsoft.VCRedist.2013.x64
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Microsoft.VCRedist.2015+.x64
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Microsoft.VCRedist.2015+.x64
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Microsoft.VisualStudioCode
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Microsoft.VisualStudioCode
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Mozilla.Firefox
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Mozilla.Firefox
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_NickeManarin.ScreenToGif
+      directives:
+        allowPrerelease: true
+      settings:
+        id: NickeManarin.ScreenToGif
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Notepad++.Notepad++
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Notepad++.Notepad++
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_OpenShot.OpenShot
+      directives:
+        allowPrerelease: true
+      settings:
+        id: OpenShot.OpenShot
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Postman.Postman.DesktopAgent
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Postman.Postman.DesktopAgent
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_SiberSystems.RoboForm
+      directives:
+        allowPrerelease: true
+      settings:
+        id: SiberSystems.RoboForm
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_SomePythonThings.WingetUIStore
+      dependsOn:
+        - winget_Microsoft.VCRedist.2015+.x64
+      directives:
+        allowPrerelease: true
+      settings:
+        id: SomePythonThings.WingetUIStore
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Spotify.Spotify
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Spotify.Spotify
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Surfshark.Surfshark
+      dependsOn:
+        - winget_Microsoft.DotNet.SDK.8
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Surfshark.Surfshark
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_TheDocumentFoundation.LibreOffice
+      directives:
+        allowPrerelease: true
+      settings:
+        id: TheDocumentFoundation.LibreOffice
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_VideoLAN.VLC
+      directives:
+        allowPrerelease: true
+      settings:
+        id: VideoLAN.VLC
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_WhatsApp.WhatsApp
+      directives:
+        allowPrerelease: true
+      settings:
+        id: WhatsApp.WhatsApp
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Zoom.Zoom
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Zoom.Zoom
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_dotPDNLLC.paintdotnet
+      directives:
+        allowPrerelease: true
+      settings:
+        id: dotPDNLLC.paintdotnet
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Eassos.DiskGenius
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Eassos.DiskGenius
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_qBittorrent.qBittorrent
+      directives:
+        allowPrerelease: true
+      settings:
+        id: qBittorrent.qBittorrent
+        source: winget
+
+    # Other
+    - resource: Microsoft.Windows.Developer/HideFileExtensions
+      directives:
+        description: Hide file extensions
+        allowPrerelease: true
+      settings:
+        Ensure: Absent
+    
+    - resource: Microsoft.Windows.Developer/ShowTaskViewButton
+      directives:
+        description: Show task view button
+        allowPrerelease: true
+      settings:
+        Ensure: Absent
+
+    - resource: Microsoft.Windows.Developer/EnableDarkMode
+      directives:
+        description: Enable dark mode
+        allowPrerelease: true
+      settings:
+        Ensure: Present
+        # Use caution when setting `RestartExplorer: true` as this will force explorer to close.
+        RestartExplorer: true # Required to apply changes

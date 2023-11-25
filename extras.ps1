@@ -32,3 +32,9 @@ if (Test-Path $winTermSettingsPath) {
 else {
   Write-Host "Windows Terminal settings file was not found at: $winTermSettingsPath"
 }
+
+# copy winget user settings
+Write-Host "Copying WinGet user settings file..."
+$wingetSettingsPath = (winget settings export | ConvertFrom-Json).userSettingsFile
+Copy-Item $wingetSettingsPath ($wingetSettingsPath + ".bkp") -Force && Write-Host "Backup created at: $wingetSettingsPath.bkp"
+Copy-Item ".\config-files\winget-user-settings.json" $wingetSettingsPath

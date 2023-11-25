@@ -1,6 +1,9 @@
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
+New-Alias grep findstr -Force
+New-Alias which Get-Command -Force
+
 # https://github.com/devblackops/Terminal-Icons
 if ((Get-Module -ListAvailable -Name "Terminal-Icons").Count -eq 0) {
   Write-Host "Installing Terminal-Icons module..."

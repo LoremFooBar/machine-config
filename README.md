@@ -38,13 +38,11 @@ Install all available Windows updates and remove some redundant default apps.
 
 ### Winget Packages
 
-1. Run WinGet configuration (**NOT** as admin):
+Run WinGet configuration (**NOT** as admin):
 
-   ```
-   winget configure -f Q:\machine-config\winget.dsc.yaml --accept-configuration-agreements
-   ```
-
-2. Enable UAC.
+```
+winget configure -f Q:\machine-config\winget.dsc.yaml --accept-configuration-agreements
+```
 
 ### Extras
 

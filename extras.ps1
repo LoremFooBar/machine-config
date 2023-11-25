@@ -2,6 +2,11 @@
 nvm install lts
 nvm use lts
 
+# Install Files https://github.com/files-community/Files/issues/13683#issuecomment-1795922946
+if ((Get-AppxPackage -Name "Files").Count -eq 0) {
+  Add-AppxPackage -AppInstallerFile "https://cdn.files.community/files/stable/Files.Package.appinstaller"
+}
+
 # install whatsapp
 Write-Host "Installing WhatsApp..."
 winget install 9NKSQGP7F2NH --accept-package-agreements

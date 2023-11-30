@@ -51,3 +51,14 @@ winget configure -f Q:\machine-config\winget.dsc.yaml --accept-configuration-agr
 2. Run `.\extras.ps1`.
 
 3. Enable UAC.
+
+## My Preferred Pinned Apps Order
+
+1. Mail (Outlook)
+2. Browser (Firefox)
+3. Coding (JetBrains, VS Code, Notepad++, Fork, Postman)
+4. Terminal
+5. Chat (Teams, WhatsApp)
+6. Other (Spotify, qBittorrent, Phone Link)
+7. Extra browsers (Edge)
+8. Explorer and Files app

@@ -101,6 +101,14 @@ properties:
         source: winget
 
     - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Jackett.Jackett
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Jackett.Jackett
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: winget_JAMSoftware.TreeSize.Free
       directives:
         allowPrerelease: true

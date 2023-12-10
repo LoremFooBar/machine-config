@@ -61,4 +61,4 @@ winget configure -f Q:\machine-config\winget.dsc.yaml --accept-configuration-agr
 5. Chat (Teams, WhatsApp)
 6. Other (Spotify, qBittorrent, Phone Link)
 7. Extra browsers (Edge)
-8. Explorer and Files app
+8. Explorer

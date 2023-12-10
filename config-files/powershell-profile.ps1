@@ -464,15 +464,15 @@ New-Alias g goto -Force -Option AllScope
 
 function goto {
   param (
-    $location
+    [ValidateSet("temp", "projects")] $location
   )
 
   Switch ($location) {
     "temp" {
       Set-Location -Path "D:\temp"
     }
-    default {
-      Write-Output "Invalid location"
+    "projects" {
+      Set-Location -Path "Q:\"
     }
   }
 }

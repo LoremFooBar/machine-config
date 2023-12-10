@@ -4,19 +4,29 @@ using namespace System.Management.Automation.Language
 New-Alias grep findstr -Force
 New-Alias which Get-Command -Force
 
-# https://github.com/devblackops/Terminal-Icons
-if ((Get-Module -ListAvailable -Name "Terminal-Icons").Count -eq 0) {
-  Write-Host "Installing Terminal-Icons module..."
-  Install-Module -Name "Terminal-Icons" -Repository PSGallery -Force
+function InstallModuleIfNotInstalled {
+  param (
+    [string] $Name,
+    [switch] $Import
+  )
+  
+  if ((Get-Module -ListAvailable -Name $Name).Count -eq 0) {
+    Write-Host "Installing $Name module..."
+    Install-Module -Name $Name -Repository PSGallery -Force
+  }
+  
+  if ($import) {
+    Import-Module -Name $Name
+  }
 }
 
-if ((Get-Module -ListAvailable -Name PSReadLine).Count -eq 0) {
-  Write-Host "Installing PSReadLine module..."
-  Install-Module PSReadLine -Force
-}
+InstallModuleIfNotInstalled -Name "Terminal-Icons" -Import
+InstallModuleIfNotInstalled -Name "PSReadLine"
+InstallModuleIfNotInstalled -Name "DockerCompletion" -Import
+InstallModuleIfNotInstalled -Name "posh-git" -Import # for git command completions
+Remove-Item Function:\InstallModuleIfNotInstalled
 
 oh-my-posh init pwsh | Invoke-Expression
-Import-Module -Name "Terminal-Icons"
 
 # winget autocomplete
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {

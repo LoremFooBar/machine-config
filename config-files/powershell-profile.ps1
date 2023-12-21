@@ -3,6 +3,8 @@ using namespace System.Management.Automation.Language
 
 New-Alias grep findstr -Force
 New-Alias which Get-Command -Force
+New-Alias pn pnpm -Force
+New-Alias p pnpm -Force
 
 function InstallModuleIfNotInstalled {
   param (
@@ -464,17 +466,19 @@ New-Alias g goto -Force -Option AllScope
 
 function goto {
   param (
-    [ValidateSet("temp", "projects")] $location
+    [ValidateSet("temp", "projects", "purplevest", "myoss", "oss-my", "temp-q")] $location
   )
 
   Switch ($location) {
-    "temp" {
-      Set-Location -Path "D:\temp"
-    }
-    "projects" {
-      Set-Location -Path "Q:\"
-    }
+    "temp" { $path = "D:\temp" }
+    "projects" { $path = "Q:\" }
+    "purplevest" { $path = "Q:\negishut-il\purple-vest-il" }
+    "myoss" { $path = "Q:\my-oss" }
+    "oss-my" { $path = "Q:\my-oss" }
+    "temp-q" { $path = "Q:\temp" }
   }
+
+  Set-Location -Path $path
 }
 
 function Get-DotnetBuildCommand { & dotnet build $args }

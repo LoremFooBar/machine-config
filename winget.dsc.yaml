@@ -69,6 +69,14 @@ properties:
         source: winget
 
     - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Google.Chrome
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Google.Chrome
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: winget_Google.GoogleDrive
       directives:
         allowPrerelease: true

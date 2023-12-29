@@ -488,3 +488,5 @@ New-Alias -Name dt -Value Get-DotnetTestCommand -Force -Option AllScope
 function Get-DotnetCleanCommand { & dotnet clean $args }
 New-Alias -Name dc -Value Get-DotnetCleanCommand -Force -Option AllScope
 
+function Get-PnpmInstallCommand { & pnpm install $args }
+New-Alias -Name pi -Value Get-PnpmInstallCommand -Force -Option AllScope

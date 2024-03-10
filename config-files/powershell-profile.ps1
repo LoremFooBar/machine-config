@@ -490,3 +490,21 @@ New-Alias -Name dc -Value Get-DotnetCleanCommand -Force -Option AllScope
 
 function Get-PnpmInstallCommand { & pnpm install $args }
 New-Alias -Name pi -Value Get-PnpmInstallCommand -Force -Option AllScope
+
+Function touch {
+  param (
+    [Parameter(
+      Mandatory = $true,
+      Position = 0)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $File
+  )
+
+  if (Test-Path $File) {
+        (Get-ChildItem $File).LastWriteTime = Get-Date
+  }
+  else {
+    New-Item -Type File $File | Out-Null
+  }
+}

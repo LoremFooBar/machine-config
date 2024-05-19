@@ -275,6 +275,14 @@ properties:
         source: winget
 
     - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_Task.Task
+      directives:
+        allowPrerelease: true
+      settings:
+        id: Task.Task
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: winget_TheDocumentFoundation.LibreOffice
       directives:
         allowPrerelease: true

@@ -29,6 +29,14 @@ properties:
         source: winget
 
     - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: winget_DevToys
+      directives:
+        allowPrerelease: true
+      settings:
+        id: 9PGCV4V3BK4W
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: winget_Docker.DockerDesktop
       directives:
         allowPrerelease: true
@@ -345,7 +353,7 @@ properties:
         allowPrerelease: true
       settings:
         Ensure: Absent
-    
+
     - resource: Microsoft.Windows.Developer/ShowTaskViewButton
       directives:
         description: Show task view button

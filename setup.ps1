@@ -6,6 +6,8 @@ function executeScript {
     Invoke-Expression $scriptFolderPath\$script
 }
 
+[System.Environment]::SetEnvironmentVariable("POWERSHELL_UPDATECHECK", "Off", [System.EnvironmentVariableTarget]::Machine)
+
 Install-WindowsUpdate -acceptEula
 
 executeScript "remove-default-apps.ps1"

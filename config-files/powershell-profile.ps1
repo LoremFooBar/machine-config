@@ -1,11 +1,20 @@
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
+$stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+
+Write-Host $stopwatch.Elapsed "alias"
+
 New-Alias grep findstr -Force
 New-Alias which Get-Command -Force
 New-Alias pn pnpm -Force
 New-Alias p pnpm -Force
 
+Write-Host $stopwatch.Elapsed "alias done"
+
+if ((Test-Path -Path Function:\InstallModuleIfNotInstalled)) { 
+  Remove-Item Function:\InstallModuleIfNotInstalled 
+}
 function InstallModuleIfNotInstalled {
   param (
     [string] $Name,
@@ -22,14 +31,30 @@ function InstallModuleIfNotInstalled {
   }
 }
 
-InstallModuleIfNotInstalled -Name "Terminal-Icons" -Import
-InstallModuleIfNotInstalled -Name "PSReadLine"
-InstallModuleIfNotInstalled -Name "DockerCompletion" -Import
-InstallModuleIfNotInstalled -Name "posh-git" -Import # for git command completions
-Remove-Item Function:\InstallModuleIfNotInstalled
+Write-Host $stopwatch.Elapsed "import 1"
 
+InstallModuleIfNotInstalled -Name "Terminal-Icons" -Import
+
+Write-Host $stopwatch.Elapsed "import 2"
+
+InstallModuleIfNotInstalled -Name "PSReadLine"
+
+Write-Host $stopwatch.Elapsed "import 3"
+
+InstallModuleIfNotInstalled -Name "DockerCompletion" -Import
+
+Write-Host $stopwatch.Elapsed "import 4"
+
+InstallModuleIfNotInstalled -Name "posh-git" -Import # for git command completions
+
+Write-Host $stopwatch.Elapsed "remove function InstallModuleIfNotInstalled"
+
+# Remove-Item Function:\InstallModuleIfNotInstalled
+
+Write-Host $stopwatch.Elapsed "init omp"
 oh-my-posh init pwsh | Invoke-Expression
 
+Write-Host $stopwatch.Elapsed "winget autocomplete"
 # winget autocomplete
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
   param($wordToComplete, $commandAst, $cursorPosition)
@@ -41,6 +66,7 @@ Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
   }
 }
 
+Write-Host $stopwatch.Elapsed "dotnet autocomplete"
 # dotnet cli autocomplete https://learn.microsoft.com/en-us/dotnet/core/tools/enable-tab-autocomplete
 Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
   param($commandName, $wordToComplete, $cursorPosition)
@@ -49,6 +75,7 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
   }
 }
 
+Write-Host $stopwatch.Elapsed "task autocomplete"
 # task autocomplete https://github.com/go-task/task/blob/main/completion/ps/task.ps1
 Register-ArgumentCompleter -CommandName task -ScriptBlock {
   param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
@@ -74,9 +101,29 @@ Register-ArgumentCompleter -CommandName task -ScriptBlock {
     return $completions.Where{ $_.CompletionText.StartsWith($commandName) }
   }
 
-  return 	$(task --list-all --silent) | Where-Object { $_.StartsWith($commandName) } | ForEach-Object { return $_ + " " }
+  return $(task --list-all --silent) | Where-Object { $_.StartsWith($commandName) } | ForEach-Object { return $_ + " " }
 }
 
+# az autocomplete
+Register-ArgumentCompleter -Native -CommandName az -ScriptBlock {
+  param($commandName, $wordToComplete, $cursorPosition)
+  $completion_file = New-TemporaryFile
+  $env:ARGCOMPLETE_USE_TEMPFILES = 1
+  $env:_ARGCOMPLETE_STDOUT_FILENAME = $completion_file
+  $env:COMP_LINE = $wordToComplete
+  $env:COMP_POINT = $cursorPosition
+  $env:_ARGCOMPLETE = 1
+  $env:_ARGCOMPLETE_SUPPRESS_SPACE = 0
+  $env:_ARGCOMPLETE_IFS = "`n"
+  $env:_ARGCOMPLETE_SHELL = 'powershell'
+  az 2>&1 | Out-Null
+  Get-Content $completion_file | Sort-Object | ForEach-Object {
+    [System.Management.Automation.CompletionResult]::new($_, $_, "ParameterValue", $_)
+  }
+  Remove-Item $completion_file, Env:\_ARGCOMPLETE_STDOUT_FILENAME, Env:\ARGCOMPLETE_USE_TEMPFILES, Env:\COMP_LINE, Env:\COMP_POINT, Env:\_ARGCOMPLETE, Env:\_ARGCOMPLETE_SUPPRESS_SPACE, Env:\_ARGCOMPLETE_IFS, Env:\_ARGCOMPLETE_SHELL
+}
+
+Write-Host $stopwatch.Elapsed "set psreadline options"
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadLineOption -EditMode Windows
@@ -88,13 +135,17 @@ Set-PSReadLineOption -EditMode Windows
 # when you used up arrow, which can be useful if you forget the exact
 # string you started the search on.
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
+Write-Host $stopwatch.Elapsed "set psreadline options done"
+Write-Host $stopwatch.Elapsed "set linekeyhandler 1"
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+Write-Host $stopwatch.Elapsed "set linekeyhandler 2"
 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 # This key handler shows the entire or filtered history using Out-GridView. The
 # typed text is used as the substring pattern for filtering. A selected command
 # is inserted to the command line without invoking. Multiple command selection
 # is supported, e.g. selected by Ctrl + Click.
+Write-Host $stopwatch.Elapsed "set linekeyhandler 3"
 Set-PSReadLineKeyHandler -Key F7 `
   -BriefDescription History `
   -LongDescription 'Show command history' `
@@ -144,10 +195,13 @@ Set-PSReadLineKeyHandler -Key F7 `
 # movement is also very useful - these are the bindings you'd use if you
 # prefer the token based movements bound to the normal emacs word movement
 # key bindings.
+Write-Host $stopwatch.Elapsed "set linekeyhandler 4"
 Set-PSReadLineKeyHandler -Key Alt+d -Function ShellKillWord
 Set-PSReadLineKeyHandler -Key Alt+Backspace -Function ShellBackwardKillWord
+Write-Host $stopwatch.Elapsed "set linekeyhandler 5"
 Set-PSReadLineKeyHandler -Key Alt+b -Function ShellBackwardWord
 Set-PSReadLineKeyHandler -Key Alt+f -Function ShellForwardWord
+Write-Host $stopwatch.Elapsed "set linekeyhandler 6"
 Set-PSReadLineKeyHandler -Key Alt+B -Function SelectShellBackwardWord
 Set-PSReadLineKeyHandler -Key Alt+F -Function SelectShellForwardWord
 
@@ -158,6 +212,7 @@ Set-PSReadLineKeyHandler -Key Alt+F -Function SelectShellForwardWord
 # in the module that do this, but this implementation still isn't as smart
 # as ReSharper, so I'm just providing it as a sample.
 
+Write-Host $stopwatch.Elapsed "set linekeyhandler 7"
 Set-PSReadLineKeyHandler -Key '"', "'" `
   -BriefDescription SmartInsertQuote `
   -LongDescription "Insert paired quotes if not already on a quote" `
@@ -253,6 +308,7 @@ Set-PSReadLineKeyHandler -Key '"', "'" `
   [Microsoft.PowerShell.PSConsoleReadLine]::Insert($quote)
 }
 
+Write-Host $stopwatch.Elapsed "set linekeyhandler 8"
 Set-PSReadLineKeyHandler -Key '(', '{', '[' `
   -BriefDescription InsertPairedBraces `
   -LongDescription "Insert matching braces" `
@@ -285,6 +341,7 @@ Set-PSReadLineKeyHandler -Key '(', '{', '[' `
   }
 }
 
+Write-Host $stopwatch.Elapsed "set linekeyhandler 9"
 Set-PSReadLineKeyHandler -Key ')', ']', '}' `
   -BriefDescription SmartCloseBraces `
   -LongDescription "Insert closing brace or skip" `
@@ -339,6 +396,7 @@ Set-PSReadLineKeyHandler -Key Backspace `
 # Sometimes you want to get a property of invoke a member on what you've entered so far
 # but you need parens to do that.  This binding will help by putting parens around the current selection,
 # or if nothing is selected, the whole line.
+Write-Host $stopwatch.Elapsed "set linekeyhandler 10"
 Set-PSReadLineKeyHandler -Key 'Alt+(' `
   -BriefDescription ParenthesizeSelection `
   -LongDescription "Put parenthesis around the selection or entire line and move the cursor to after the closing parenthesis" `
@@ -365,6 +423,7 @@ Set-PSReadLineKeyHandler -Key 'Alt+(' `
 
 # under or before the cursor.  It will cycle through single quotes, double quotes, or
 # no quotes each time it is invoked.
+Write-Host $stopwatch.Elapsed "set linekeyhandler 11"
 Set-PSReadLineKeyHandler -Key "Alt+'" `
   -BriefDescription ToggleQuoteArgument `
   -LongDescription "Toggle quotes on the argument under the cursor" `
@@ -419,6 +478,7 @@ Set-PSReadLineKeyHandler -Key "Alt+'" `
 }
 
 # This example will replace any aliases on the command line with the resolved commands.
+Write-Host $stopwatch.Elapsed "set linekeyhandler 12"
 Set-PSReadLineKeyHandler -Key "Alt+%" `
   -BriefDescription ExpandAliases `
   -LongDescription "Replace all aliases with the full command" `
@@ -455,6 +515,7 @@ Set-PSReadLineKeyHandler -Key "Alt+%" `
 }
 
 # F1 for help on the command line - naturally
+Write-Host $stopwatch.Elapsed "set linekeyhandler 13"
 Set-PSReadLineKeyHandler -Key F1 `
   -BriefDescription CommandHelp `
   -LongDescription "Open the help window for the current command" `
@@ -489,12 +550,14 @@ Set-PSReadLineKeyHandler -Key F1 `
   }
 }
 
+Write-Host $stopwatch.Elapsed "goto alias"
 # goto
 New-Alias g goto -Force -Option AllScope
 
+Write-Host $stopwatch.Elapsed "goto function"
 function goto {
   param (
-    [ValidateSet("temp", "projects", "purplevest", "myoss", "oss-my", "temp-q")] $location
+    [ValidateSet("temp", "projects", "purplevest", "myoss", "oss-my", "temp-q", "scripts")] $location
   )
 
   Switch ($location) {
@@ -504,21 +567,27 @@ function goto {
     "myoss" { $path = "Q:\my-oss" }
     "oss-my" { $path = "Q:\my-oss" }
     "temp-q" { $path = "Q:\temp" }
+    "scripts" { $path = "Q:\scripts" }
   }
 
   Set-Location -Path $path
 }
 
+Write-Host $stopwatch.Elapsed "dotnet shortcut 1"
 function Get-DotnetBuildCommand { & dotnet build $args }
 New-Alias -Name db -Value Get-DotnetBuildCommand -Force -Option AllScope
+Write-Host $stopwatch.Elapsed "dotnet shortcut 2"
 function Get-DotnetTestCommand { & dotnet test $args }
 New-Alias -Name dt -Value Get-DotnetTestCommand -Force -Option AllScope
+Write-Host $stopwatch.Elapsed "dotnet shortcut 3"
 function Get-DotnetCleanCommand { & dotnet clean $args }
 New-Alias -Name dc -Value Get-DotnetCleanCommand -Force -Option AllScope
 
+Write-Host $stopwatch.Elapsed "pnpm i shortcut"
 function Get-PnpmInstallCommand { & pnpm install $args }
 New-Alias -Name pi -Value Get-PnpmInstallCommand -Force -Option AllScope
 
+Write-Host $stopwatch.Elapsed "touch function"
 Function touch {
   param (
     [Parameter(
@@ -530,9 +599,12 @@ Function touch {
   )
 
   if (Test-Path $File) {
-        (Get-ChildItem $File).LastWriteTime = Get-Date
+    (Get-ChildItem $File).LastWriteTime = Get-Date
   }
   else {
     New-Item -Type File $File | Out-Null
   }
 }
+
+$stopwatch.Stop()
+
